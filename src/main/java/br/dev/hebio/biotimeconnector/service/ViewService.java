@@ -1,5 +1,6 @@
 package br.dev.hebio.biotimeconnector.service;
 
+import br.dev.hebio.biotimeconnector.model.colaborador.ColaboradorDadosView;
 import br.dev.hebio.biotimeconnector.util.ViewConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class ViewService {
     private ViewConnection viewConnect;
 
 
-    public List<?> listarColaboradoresAdmitidos() {
-        List<?> result = null;
+    public List<ColaboradorDadosView> listarColaboradoresAdmitidos() {
+        List<ColaboradorDadosView> result = null;
 
         try {
             result = viewConnect.executeQuery("SELECT DISTINCT CHAPA AS matricula, name_social AS nome, CPF AS cpf, CODSITUACAO AS situacao, DATAADMISSAO AS dataAdmissao, DATADEMISSAO AS dataDemissao FROM V_GTI_Funcionarios WHERE CODSITUACAO = 'A';");

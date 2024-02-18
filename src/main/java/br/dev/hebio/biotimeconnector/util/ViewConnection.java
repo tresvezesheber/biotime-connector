@@ -1,11 +1,11 @@
 package br.dev.hebio.biotimeconnector.util;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import br.dev.hebio.biotimeconnector.model.colaborador.ColaboradorDadosView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -24,7 +24,7 @@ public class ViewConnection {
     private String viewPassword;
 
 
-    public List<?> executeQuery(String query) throws SQLException {
+    public List<ColaboradorDadosView> executeQuery(String query) throws SQLException {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
@@ -33,21 +33,21 @@ public class ViewConnection {
 
         Connection conn = DriverManager.getConnection(viewHost + ";database=" + viewDatabase + ";encrypt=false", viewUsername, viewPassword);
         Statement stmt = conn.createStatement();
-        //String query = query;
         ResultSet rs = stmt.executeQuery(query);
 
-        JSONArray json = new JSONArray();
-        ResultSetMetaData rsmd = rs.getMetaData();
+        List<ColaboradorDadosView> colaboradores = new ArrayList<>();
         while (rs.next()) {
-            int numColumns = rsmd.getColumnCount();
-            JSONObject obj = new JSONObject();
-            for (int i = 1; i <= numColumns; i++) {
-                String column_name = rsmd.getColumnName(i);
-                obj.put(column_name, rs.getObject(column_name));
-            }
-            json.put(obj.toMap());
+            ColaboradorDadosView colaborador = new ColaboradorDadosView(
+                    rs.getString("matricula"),
+                    rs.getString("nome"),
+                    rs.getString("cpf"),
+                    rs.getString("situacao").charAt(0),
+                    rs.getTimestamp("dataAdmissao").toLocalDateTime(),
+                    rs.getTimestamp("dataDemissao").toLocalDateTime()
+            );
+            colaboradores.add(colaborador);
         }
 
-        return json.toList();
+        return colaboradores;
     }
 }
