@@ -25,6 +25,6 @@ public class BiotimeConnectorApplication implements CommandLineRunner {
         System.out.println("Reading data from Cartoes table...");
         databaseConnection.readDataFromCartoesTable();
         System.out.println("Reading data from Colaboradores view...");
-        viewService.listarColaboradoresAdmitidos();
+        System.out.println(viewService.listarColaboradoresAdmitidos());
     }
 }

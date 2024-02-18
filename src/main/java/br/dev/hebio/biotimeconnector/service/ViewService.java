@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -16,13 +15,13 @@ public class ViewService {
 
 
     public List<?> listarColaboradoresAdmitidos() {
-        HashMap<String, Object> result = null;
+        List<?> result = null;
 
         try {
-            result = (HashMap<String, Object>) viewConnect.executeQuery("SELECT DISTINCT CHAPA AS matricula, name_social AS nome, CPF AS cpf, CODSITUACAO AS situacao, DATAADMISSAO AS dataAdmissao, DATADEMISSAO AS dataDemissao FROM V_GTI_Funcionarios WHERE CODSITUACAO = 'A';");
+            result = viewConnect.executeQuery("SELECT DISTINCT CHAPA AS matricula, name_social AS nome, CPF AS cpf, CODSITUACAO AS situacao, DATAADMISSAO AS dataAdmissao, DATADEMISSAO AS dataDemissao FROM V_GTI_Funcionarios WHERE CODSITUACAO = 'A';");
         } catch (IndexOutOfBoundsException | SQLException e) {
             e.printStackTrace();
         }
-        return (List<?>) result;
+        return result;
     }
 }

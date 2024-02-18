@@ -11,14 +11,18 @@ import java.util.List;
 @Component
 public class ViewConnection {
 
-    @Value("${sql.view.path}")
-    private String viewPath;
+    @Value("${sql.view.host}")
+    private String viewHost;
+
+    @Value("${sql.view.database}")
+    private String viewDatabase;
 
     @Value("${sql.view.username}")
     private String viewUsername;
 
     @Value("${sql.view.password}")
     private String viewPassword;
+
 
     public List<?> executeQuery(String query) throws SQLException {
         try {
@@ -27,7 +31,7 @@ public class ViewConnection {
             throw new RuntimeException(e);
         }
 
-        Connection conn = DriverManager.getConnection(viewPath, viewUsername, viewPassword);
+        Connection conn = DriverManager.getConnection(viewHost + ";database=" + viewDatabase + ";encrypt=false", viewUsername, viewPassword);
         Statement stmt = conn.createStatement();
         //String query = query;
         ResultSet rs = stmt.executeQuery(query);
