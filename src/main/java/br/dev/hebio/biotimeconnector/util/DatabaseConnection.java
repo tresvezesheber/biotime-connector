@@ -32,7 +32,33 @@ public class DatabaseConnection {
             Table table = db.getTable("Cartoes");
 
             for (Row row : table) {
-                System.out.println(row.getString("Nome"));
+                System.out.println(
+                        row.getString("Codigo") +
+                                " | " +
+                                row.getString("Nome") +
+                                " | " +
+                                row.getString("Mensagem") +
+                                " | " +
+                                row.getString("Via") +
+                                " | " +
+                                row.getString("Senha") +
+                                " | " +
+                                row.getBoolean("JornadaUnica") +
+                                " | " +
+                                row.getString("Jornada") +
+                                " | " +
+                                row.getString("Acesso") +
+                                " | " +
+                                row.getString("NumCartao") +
+                                " | " +
+                                row.getString("NumRG") +
+                                " | " +
+                                row.getBoolean("Visitante") +
+                                " | " +
+                                row.getLocalDateTime("DataInicioValidade") +
+                                " | " +
+                                row.getLocalDateTime("DataFinalValidade")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
