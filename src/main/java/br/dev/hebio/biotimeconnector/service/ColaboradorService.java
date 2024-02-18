@@ -24,7 +24,12 @@ public class ColaboradorService {
             colaboradorRepository.save(novoColaborador);
         } else if (!hash.equals(colaboradorAtual.getHash())) {
             // Os dados do colaborador foram alterados, então atualizamos o colaborador no banco de dados local.
-            colaboradorAtual = new Colaborador(dadosView);
+            colaboradorAtual.setMatricula(dadosView.matricula());
+            colaboradorAtual.setNome(dadosView.nome());
+            colaboradorAtual.setCpf(dadosView.cpf());
+            colaboradorAtual.setSituacao(dadosView.situacao());
+            colaboradorAtual.setDataAdmissao(dadosView.dataAdmissao());
+            colaboradorAtual.setDataDemissao(dadosView.dataDemissao());
             colaboradorAtual.setHash(hash);
             colaboradorRepository.save(colaboradorAtual);
         }

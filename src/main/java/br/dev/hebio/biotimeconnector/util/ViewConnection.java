@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +38,18 @@ public class ViewConnection {
 
         List<ColaboradorDadosView> colaboradores = new ArrayList<>();
         while (rs.next()) {
+            LocalDateTime dataDemissao = null;
+            Timestamp timestamp = rs.getTimestamp("dataDemissao");
+            if (timestamp != null) {
+                dataDemissao = timestamp.toLocalDateTime();
+            }
             ColaboradorDadosView colaborador = new ColaboradorDadosView(
                     rs.getString("matricula"),
                     rs.getString("nome"),
                     rs.getString("cpf"),
                     rs.getString("situacao").charAt(0),
                     rs.getTimestamp("dataAdmissao").toLocalDateTime(),
-                    rs.getTimestamp("dataDemissao").toLocalDateTime()
+                    dataDemissao
             );
             colaboradores.add(colaborador);
         }

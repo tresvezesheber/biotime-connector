@@ -39,7 +39,7 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(fixedRate = 1800000) // 1800000ms = 30 minutos
+    @Scheduled(fixedRate = 300000) // 300000ms = 5 minutos
     public void verificarEAtualizarDados() {
         List<ColaboradorDadosView> colaboradoresView = viewService.listarColaboradoresAdmitidos();
         for (ColaboradorDadosView dadosView : colaboradoresView) {
