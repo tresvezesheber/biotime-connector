@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 @Component
 public class DatabaseConnection {
@@ -64,4 +65,34 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    public void writeDataToCartoesTable() {
+    try {
+        if (!checkDatabaseFileExists()) {
+            System.out.println("Database file not found: " + dbPath);
+            return;
+        }
+
+        Database db = DatabaseBuilder.open(new File(dbPath));
+        Table table = db.getTable("Cartoes");
+
+        table.addRow(
+            "094552", // Codigo
+            "Heber dos S. S. de Araujo Lima", // Nome
+            "0", // Mensagem
+            "1", // Via
+            "125007", // Senha
+            true, // JornadaUnica
+            "10", // Jornada
+            "0", // Acesso
+            "094552", // NumCartao
+            "121125007", // NumRG
+            false, // Visitante
+            LocalDateTime.now(), // DataInicioValidade
+            LocalDateTime.now().plusDays(30) // DataFinalValidade
+        );
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

@@ -2,6 +2,7 @@ package br.dev.hebio.biotimeconnector.service;
 
 import br.dev.hebio.biotimeconnector.model.colaborador.Colaborador;
 import br.dev.hebio.biotimeconnector.model.colaborador.ColaboradorDadosView;
+import br.dev.hebio.biotimeconnector.model.colaborador.SyncStatus;
 import br.dev.hebio.biotimeconnector.repository.ColaboradorRepository;
 import br.dev.hebio.biotimeconnector.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ColaboradorService {
         if (colaboradorAtual == null) {
             // O colaborador não existe no banco de dados local, então criamos um novo colaborador e o salvamos.
             Colaborador novoColaborador = new Colaborador(dadosView);
+            novoColaborador.setSyncStatus(SyncStatus.CRIAR);
             novoColaborador.setHash(hash);
             colaboradorRepository.save(novoColaborador);
         } else if (!hash.equals(colaboradorAtual.getHash())) {
@@ -30,6 +32,7 @@ public class ColaboradorService {
             colaboradorAtual.setSituacao(dadosView.situacao());
             colaboradorAtual.setDataAdmissao(dadosView.dataAdmissao());
             colaboradorAtual.setDataDemissao(dadosView.dataDemissao());
+            colaboradorAtual.setSyncStatus(SyncStatus.ATUALIZAR);
             colaboradorAtual.setHash(hash);
             colaboradorRepository.save(colaboradorAtual);
         }
