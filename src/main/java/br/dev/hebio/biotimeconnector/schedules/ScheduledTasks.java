@@ -2,6 +2,7 @@ package br.dev.hebio.biotimeconnector.schedules;
 
 import br.dev.hebio.biotimeconnector.model.colaborador.Colaborador;
 import br.dev.hebio.biotimeconnector.model.colaborador.ColaboradorDadosView;
+import br.dev.hebio.biotimeconnector.model.colaborador.SyncStatus;
 import br.dev.hebio.biotimeconnector.repository.ColaboradorRepository;
 import br.dev.hebio.biotimeconnector.service.ColaboradorService;
 import br.dev.hebio.biotimeconnector.service.ViewService;
@@ -34,6 +35,7 @@ public class ScheduledTasks {
         List<ColaboradorDadosView> colaboradoresView = viewService.listarColaboradoresAdmitidos();
         for (ColaboradorDadosView dadosView : colaboradoresView) {
             Colaborador colaborador = new Colaborador(dadosView);
+            colaborador.setSyncStatus(SyncStatus.CRIAR);
             colaborador.setHash(HashUtil.calculateHash(dadosView));
             colaboradorRepository.save(colaborador);
         }
