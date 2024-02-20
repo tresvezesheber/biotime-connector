@@ -1,5 +1,7 @@
 package br.dev.hebio.biotimeconnector.model.colaborador;
 
+import br.dev.hebio.biotimeconnector.util.AbreviaNome;
+
 import java.time.LocalDateTime;
 
 public record CartaoColaborador(
@@ -20,7 +22,7 @@ public record CartaoColaborador(
     public CartaoColaborador(Colaborador colaborador) {
         this(
                 colaborador.getMatricula().replaceFirst("^0+", ""),
-                colaborador.getNome(),
+                AbreviaNome.abreviarNomeETransformaEmMaiusculo(colaborador.getNome()),
                 "0",
                 "1",
                 colaborador.getCpf().substring(0, 6),
@@ -33,6 +35,5 @@ public record CartaoColaborador(
                 colaborador.getDataCriacao(),
                 colaborador.getDataCriacao().plusYears(10)
         );
-
     }
 }
