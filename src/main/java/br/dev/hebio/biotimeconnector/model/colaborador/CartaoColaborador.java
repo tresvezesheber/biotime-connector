@@ -1,5 +1,6 @@
 package br.dev.hebio.biotimeconnector.model.colaborador;
 
+import br.dev.hebio.biotimeconnector.service.ColaboradorService;
 import br.dev.hebio.biotimeconnector.util.AbreviaNome;
 
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public record CartaoColaborador(
                 colaborador.getCpf().substring(0, 6),
                 true,
                 "010",
-                "0",
+                ColaboradorService.defineAcesso(colaborador.getSituacao()),
                 String.format("%1$10s", colaborador.getMatricula()).replace(' ', '0'),
                 colaborador.getCpf(),
                 false,

@@ -38,5 +38,10 @@ public class ColaboradorService {
         }
     }
 
-
+    public static String defineAcesso(char colaboradorSituacao) {
+        if (!(colaboradorSituacao == 'A')) {
+            return "1";
+        }
+        return "0";
+    }
 }
