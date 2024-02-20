@@ -44,7 +44,7 @@ public class ScheduledTasks {
             colaborador.setHash(HashUtil.calculateHash(dadosView));
             colaboradorRepository.save(colaborador);
         }
-        verificaEEnviaNovosCartoesParaMdb();
+        enviaNovosCartoesParaMdb();
     }
 
     @Scheduled(fixedRate = 300000) // 300000ms = 5 minutos
@@ -53,11 +53,21 @@ public class ScheduledTasks {
         for (ColaboradorDadosView dadosView : colaboradoresView) {
             colaboradorService.verificarEAtualizarDados(dadosView);
         }
+        enviaNovosCartoesParaMdb();
+        enviaCartoesAtualizadosParaMdb();
     }
 
-    public void verificaEEnviaNovosCartoesParaMdb() {
+    public void enviaNovosCartoesParaMdb() {
         colaboradorRepository.findAllBySyncStatusIs(SyncStatus.CRIAR).forEach(colaborador -> {
             databaseConnection.insereDadosNaTabelaCartoes(new CartaoColaborador(colaborador));
+            colaborador.setSyncStatus(SyncStatus.SINCRONIZADO);
+            colaboradorRepository.save(colaborador);
+        });
+    }
+
+    public void enviaCartoesAtualizadosParaMdb() {
+        colaboradorRepository.findAllBySyncStatusIs(SyncStatus.ATUALIZAR).forEach(colaborador -> {
+            databaseConnection.atualizaDadosNaTabelaCartoes(new CartaoColaborador(colaborador));
             colaborador.setSyncStatus(SyncStatus.SINCRONIZADO);
             colaboradorRepository.save(colaborador);
         });

@@ -127,4 +127,37 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    public void atualizaDadosNaTabelaCartoes(CartaoColaborador cartaoColaborador) {
+        try {
+            if (!checkDatabaseFileExists()) {
+                System.out.println("Database file not found: " + dbPath);
+                return;
+            }
+
+            Database db = DatabaseBuilder.open(new File(dbPath));
+            Table table = db.getTable("Cartoes");
+
+            for (Row row : table) {
+                if (row.getString("Codigo").equals(cartaoColaborador.codigo())) {
+                    row.put("Nome", cartaoColaborador.nome());
+                    row.put("Mensagem", cartaoColaborador.mensagem());
+                    row.put("Via", cartaoColaborador.via());
+                    row.put("Senha", cartaoColaborador.senha());
+                    row.put("JornadaUnica", cartaoColaborador.jornadaUnica());
+                    row.put("Jornada", cartaoColaborador.jornada());
+                    row.put("Acesso", cartaoColaborador.acesso());
+                    row.put("NumCartao", cartaoColaborador.numCartao());
+                    row.put("NumRG", cartaoColaborador.numRG());
+                    row.put("Visitante", cartaoColaborador.visitante());
+                    row.put("DataInicioValidade", cartaoColaborador.dataInicioValidade());
+                    row.put("DataFinalValidade", cartaoColaborador.dataFimValidade());
+                    table.updateRow(row);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
