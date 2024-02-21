@@ -19,7 +19,7 @@ public class ViewService {
         List<ColaboradorDadosView> result = null;
 
         try {
-            result = viewConnect.executeQuery("SELECT DISTINCT CHAPA AS matricula, name_social AS nome, CPF AS cpf, CODSITUACAO AS situacao, DATAADMISSAO AS dataAdmissao, DATADEMISSAO AS dataDemissao FROM V_GTI_Funcionarios WHERE CODSITUACAO = 'A';");
+            result = viewConnect.executeQuery("SELECT DISTINCT CHAPA AS matricula, name_social AS nome, CPF AS cpf, CODSITUACAO AS situacao, DATAADMISSAO AS dataAdmissao, DATADEMISSAO AS dataDemissao FROM V_GTI_Funcionarios;");
         } catch (IndexOutOfBoundsException | SQLException e) {
             e.printStackTrace();
         }

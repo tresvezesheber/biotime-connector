@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,6 +33,12 @@ public class Colaborador {
 
     @Enumerated(EnumType.STRING)
     private SyncStatus syncStatus;
+
+    @CreationTimestamp
+    private LocalDateTime dataCriacao;
+
+    @UpdateTimestamp
+    private LocalDateTime dataUltimaAtualizacao;
 
     private String hash;
 
