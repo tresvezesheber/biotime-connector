@@ -6,6 +6,7 @@ import br.dev.hebio.biotimeconnector.model.colaborador.ColaboradorDadosView;
 import br.dev.hebio.biotimeconnector.model.colaborador.SyncStatus;
 import br.dev.hebio.biotimeconnector.repository.ColaboradorRepository;
 import br.dev.hebio.biotimeconnector.service.ColaboradorService;
+import br.dev.hebio.biotimeconnector.service.SyncService;
 import br.dev.hebio.biotimeconnector.service.ViewService;
 import br.dev.hebio.biotimeconnector.util.DatabaseConnection;
 import br.dev.hebio.biotimeconnector.util.HashUtil;
@@ -40,7 +41,7 @@ public class ScheduledTasks {
         List<ColaboradorDadosView> colaboradoresView = viewService.listarColaboradoresAdmitidos();
         for (ColaboradorDadosView dadosView : colaboradoresView) {
             Colaborador colaborador = new Colaborador(dadosView);
-            colaborador.setSyncStatus(SyncStatus.CRIAR);
+            colaborador.setSyncStatus(SyncService.defineRegistrosASeremSincronizados(dadosView.situacao()));
             colaborador.setHash(HashUtil.calculateHash(dadosView));
             colaboradorRepository.save(colaborador);
         }

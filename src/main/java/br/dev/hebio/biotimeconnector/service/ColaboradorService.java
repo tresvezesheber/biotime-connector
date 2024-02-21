@@ -21,7 +21,7 @@ public class ColaboradorService {
         if (colaboradorAtual == null) {
             // O colaborador não existe no banco de dados local, então criamos um novo colaborador e o salvamos.
             Colaborador novoColaborador = new Colaborador(dadosView);
-            novoColaborador.setSyncStatus(SyncStatus.CRIAR);
+            novoColaborador.setSyncStatus(SyncService.defineRegistrosASeremSincronizados(dadosView.situacao()));
             novoColaborador.setHash(hash);
             colaboradorRepository.save(novoColaborador);
         } else if (!hash.equals(colaboradorAtual.getHash())) {
