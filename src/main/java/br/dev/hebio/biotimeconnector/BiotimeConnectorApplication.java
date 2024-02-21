@@ -24,7 +24,5 @@ public class BiotimeConnectorApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Reading data from Cartoes table...");
-        databaseConnection.readDataFromCartoesTable();
     }
 }

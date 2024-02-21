@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class ScheduledTasks {
 
     @PostConstruct
     public void importarColaboradoresNaPrimeiraExecucao() {
+        long tempoInicio = System.nanoTime();
         if (colaboradorRepository.count() > 0) {
             return;
         }
@@ -46,16 +48,23 @@ public class ScheduledTasks {
             colaboradorRepository.save(colaborador);
         }
         enviaNovosCartoesParaMdb();
+        long tempoFim = System.nanoTime();
+        long tempoTotal = (tempoFim - tempoInicio) / 1000000;
+        System.out.println(LocalDateTime.now() + " - importarColaboradoresNaPrimeiraExecucao() Tempo total de execução: " + tempoTotal + "ms");
     }
 
     @Scheduled(fixedRate = 300000) // 300000ms = 5 minutos
     public void verificarEAtualizarDados() {
+        long tempoInicio = System.nanoTime();
         List<ColaboradorDadosView> colaboradoresView = viewService.listarColaboradoresAdmitidos();
         for (ColaboradorDadosView dadosView : colaboradoresView) {
             colaboradorService.verificarEAtualizarDados(dadosView);
         }
         enviaNovosCartoesParaMdb();
         enviaCartoesAtualizadosParaMdb();
+        long tempoFim = System.nanoTime();
+        long tempoTotal = (tempoFim - tempoInicio) / 1000000;
+        System.out.println(LocalDateTime.now() + " - verificarEAtualizarDados() Tempo total de execução: " + tempoTotal + "ms");
     }
 
     public void enviaNovosCartoesParaMdb() {
