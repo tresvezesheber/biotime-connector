@@ -20,9 +20,9 @@ public class SyncService {
                 || colaboradorSituacao == 'V'
                 || colaboradorSituacao == 'W'
                 || colaboradorSituacao == 'Y')) {
-            return SyncStatus.CRIAR;
+            return SyncStatus.NAO_SINCRONIZAR;
         }
-        return SyncStatus.NAO_SINCRONIZAR;
+        return SyncStatus.CRIAR;
     }
 
 }
