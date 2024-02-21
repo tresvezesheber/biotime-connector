@@ -21,7 +21,7 @@ public class ColaboradorService {
         if (colaboradorAtual == null) {
             // O colaborador não existe no banco de dados local, então criamos um novo colaborador e o salvamos.
             Colaborador novoColaborador = new Colaborador(dadosView);
-            novoColaborador.setSyncStatus(SyncStatus.CRIAR);
+            novoColaborador.setSyncStatus(SyncService.defineRegistrosASeremSincronizados(dadosView.situacao()));
             novoColaborador.setHash(hash);
             colaboradorRepository.save(novoColaborador);
         } else if (!hash.equals(colaboradorAtual.getHash())) {
@@ -38,5 +38,22 @@ public class ColaboradorService {
         }
     }
 
+    public static String defineAcesso(char colaboradorSituacao) {
+        /*A - ATIVO, C - CONTRATO DE TRABALHO SUSPENSO, D - DEMITIDO, E - LICENÇA MATER., F - FÉRIAS, G - RECESSO REMUNERADO DE ESTAGIO, I - APOS. POR INCAPACIDADE PERMANENTE,
+        K - CESSÃO/REQUISIÇÃO, L - LICENÇA S/VENC, M - SERV. MILITAR, N - MANDATO SINDICAL ÔNUS DO EMPREGADOR, O - DOENÇA OCUPACIONAL, P - AF. PREVIDÊNCIA, Q - PRISÃO/CÁRCERE,
+                R - LICENÇA REMUN., S - MANDATO SINDICAL ÔNUS SINDICATO, T - AF. AC. TRABALHO, U - OUTROS, V - AVISO PRÉVIO, W - LICENÇA MATER. COMPL. 180 DIAS, X - C/DEM. NO MÊS,
+                Y - LICENÇA PATERNIDADE, Z - ADMISSÃO PROX. MÊS*/
 
+        if (!(colaboradorSituacao == 'A'
+                || colaboradorSituacao == 'E'
+                || colaboradorSituacao == 'F'
+                || colaboradorSituacao == 'L'
+                || colaboradorSituacao == 'R'
+                || colaboradorSituacao == 'V'
+                || colaboradorSituacao == 'W'
+                || colaboradorSituacao == 'Y')) {
+            return "1";
+        }
+        return "0";
+    }
 }

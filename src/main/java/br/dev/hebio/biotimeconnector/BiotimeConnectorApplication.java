@@ -24,14 +24,5 @@ public class BiotimeConnectorApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        System.out.println("Writing data in Cartoes table...");
-        databaseConnection.writeDataToCartoesTable();
-
-        System.out.println("Reading data from Cartoes table...");
-        databaseConnection.readDataFromCartoesTable();
-
-//        System.out.println("Reading data from Colaboradores view...");
-//        System.out.println(viewService.listarColaboradoresAdmitidos());
     }
 }
